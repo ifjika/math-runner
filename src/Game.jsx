@@ -1,21 +1,46 @@
-import React from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import React, { useRef, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls, Environment } from "@react-three/drei";
+import Player from "./components/Player";
+
+const CameraFocus = () => {
+  const controlsRef = useRef();
+  const { camera } = useThree();
+
+  useEffect(() => {
+    camera.lookAt(0, 1, 0);
+  }, [camera]);
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      target={[0, 1, 0]}
+      enablePan={false}
+      enableDamping
+      dampingFactor={0.05}
+    />
+  );
+};
 
 const Game = () => {
-    return (
-        <Canvas camera={{ position: [0, 2, 5], fov: 75 }}>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
+  return (
+    <Canvas
+      camera={{ position: [0, 1.5, 5], fov: 50 }}
+      style={{
+        width: "100vw",
+        height: "100vh",
+        background: "#ffffff",
+      }}
+    >
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[5, 5, 5]} intensity={1} />
 
-            <mesh position={[0, 1, 0]}>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="orange" />
-            </mesh>
+      <Player position={[0, 0, 0]} />
 
-            <OrbitControls />
-        </Canvas>
-    );
+      <Environment preset="sunset" />
+      <CameraFocus />
+    </Canvas>
+  );
 };
 
 export default Game;

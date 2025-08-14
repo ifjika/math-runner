@@ -1,12 +1,7 @@
-import React from 'react';
-import Game from './Game';
+import Game from "./Game";
 
-function App() {
-    return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <Game />
-        </div>
-    );
-}
+const App = () => {
+  return <Game />;
+};
 
 export default App;
